@@ -137,7 +137,7 @@ def handle_ContactList():
     return "Invalid Method", 404
 
 
-@app.route('/person/<int:person_id>', methods=['PUT', 'GET', 'DELETE'])
+@app.route('/contact/<int:contact_id>', methods=['PUT', 'GET', 'DELETE'])
 def get_single_contact(contact_id):
     """
     Single contact
@@ -157,11 +157,11 @@ def get_single_contact(contact_id):
             contact1.name = body["name"]
         if "phone" in body:
             contact1.phone = body["phone"]
-         if "email" in body:
+        if "email" in body:
             contact1.email = body["email"]
         db.session.commit()
 
-        return jsonify(user1.serialize()), 200
+        return jsonify(contact1.serialize()), 200
 
     # GET request
     if request.method == 'GET':

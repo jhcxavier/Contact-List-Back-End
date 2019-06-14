@@ -32,6 +32,7 @@ class ContactList(db.Model):
             "name": self.name,
             "phone": self.phone,
             "email": self.email,
-            "address": self.address
+            "address": self.address,
+            "id": self.id
             # "address": self.address
         }

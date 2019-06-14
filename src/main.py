@@ -24,84 +24,6 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-# @app.route('/person', methods=['POST', 'GET'])
-# def handle_person():
-#     """
-#     Create person and retrieve all persons
-#     """
-
-#     # POST request
-#     if request.method == 'POST':
-#         body = request.get_json()
-
-#         if body is None:
-#             raise APIException("You need to specify the request body as a json object", status_code=400)
-#         if 'username' not in body:
-#             raise APIException('You need to specify the username', status_code=400)
-#         if 'email' not in body:
-#             raise APIException('You need to specify the email', status_code=400)
-
-#         user1 = Person(username=body['username'], email=body['email'])
-#         db.session.add(user1)
-#         db.session.commit()
-#         return "ok", 200
-
-#     # GET request
-#     if request.method == 'GET':
-#         all_people = Person.query.all()
-#         all_people = list(map(lambda x: x.serialize(), all_people))
-#         return jsonify(all_people), 200
-
-#     return "Invalid Method", 404
-
-
-# @app.route('/person/<int:person_id>', methods=['PUT', 'GET', 'DELETE'])
-# def get_single_person(person_id):
-#     """
-#     Single person
-#     """
-
-#     # PUT request
-#     if request.method == 'PUT':
-#         body = request.get_json()
-#         if body is None:
-#             raise APIException("You need to specify the request body as a json object", status_code=400)
-
-#         user1 = Person.query.get(person_id)
-#         if user1 is None:
-#             raise APIException('User not found', status_code=404)
-
-#         if "username" in body:
-#             user1.username = body["username"]
-#         if "email" in body:
-#             user1.email = body["email"]
-#         db.session.commit()
-
-#         return jsonify(user1.serialize()), 200
-
-#     # GET request
-#     if request.method == 'GET':
-#         user1 = Person.query.get(person_id)
-#         if user1 is None:
-#             raise APIException('User not found', status_code=404)
-#         return jsonify(user1.serialize()), 200
-
-#     # DELETE request
-#     if request.method == 'DELETE':
-#         user1 = Person.query.get(person_id)
-#         if user1 is None:
-#             raise APIException('User not found', status_code=404)
-#         db.session.delete(user1)
-#         db.session.commit()
-#         return "ok", 200
-
-#     return "Invalid Method", 404
-
-
-# if __name__ == '__main__':
-#     PORT = int(os.environ.get('PORT', 3000))
-#     app.run(host='0.0.0.0', port=PORT)
-
 @app.route('/contact', methods=['POST', 'GET'])
 def handle_ContactList():
     """
@@ -120,10 +42,10 @@ def handle_ContactList():
             raise APIException('You need to specify the phone', status_code=400)
         if 'email' not in body:
             raise APIException('You need to specify the email', status_code=400)
-        # if 'address' not in body:
-        #     raise APIException('You need to specify the phone', status_code=400)
+        if 'address' not in body:
+            body['address'] = None
 
-        contact1 = ContactList(name=body['name'], phone=body['phone'], email=body['email'])
+        contact1 = ContactList(name=body['name'], phone=body['phone'], email=body['email'], address=body['address'])
         db.session.add(contact1)
         db.session.commit()
         return "ok", 200
@@ -159,6 +81,8 @@ def get_single_contact(contact_id):
             contact1.phone = body["phone"]
         if "email" in body:
             contact1.email = body["email"]
+        if "address" in body:
+            contact1.address = body["address"]
         db.session.commit()
 
         return jsonify(contact1.serialize()), 200

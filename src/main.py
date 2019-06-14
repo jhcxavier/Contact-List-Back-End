@@ -137,47 +137,49 @@ def handle_ContactList():
     return "Invalid Method", 404
 
 
-# @app.route('/person/<int:person_id>', methods=['PUT', 'GET', 'DELETE'])
-# def get_single_person(person_id):
-#     """
-#     Single person
-#     """
+@app.route('/person/<int:person_id>', methods=['PUT', 'GET', 'DELETE'])
+def get_single_contact(contact_id):
+    """
+    Single contact
+    """
 
-#     # PUT request
-#     if request.method == 'PUT':
-#         body = request.get_json()
-#         if body is None:
-#             raise APIException("You need to specify the request body as a json object", status_code=400)
+    # PUT request
+    if request.method == 'PUT':
+        body = request.get_json()
+        if body is None:
+            raise APIException("You need to specify the request body as a json object", status_code=400)
 
-#         user1 = Person.query.get(person_id)
-#         if user1 is None:
-#             raise APIException('User not found', status_code=404)
+        contact1 = ContactList.query.get(contact_id)
+        if contact1 is None:
+            raise APIException('User not found', status_code=404)
 
-#         if "username" in body:
-#             user1.username = body["username"]
-#         if "email" in body:
-#             user1.email = body["email"]
-#         db.session.commit()
+        if "name" in body:
+            contact1.name = body["name"]
+        if "phone" in body:
+            contact1.phone = body["phone"]
+         if "email" in body:
+            contact1.email = body["email"]
+        db.session.commit()
 
-#         return jsonify(user1.serialize()), 200
+        return jsonify(user1.serialize()), 200
 
-#     # GET request
-#     if request.method == 'GET':
-#         user1 = Person.query.get(person_id)
-#         if user1 is None:
-#             raise APIException('User not found', status_code=404)
-#         return jsonify(user1.serialize()), 200
+    # GET request
+    if request.method == 'GET':
+        contact1 = ContactList.query.get(contact_id)
+        if contact1 is None:
+            raise APIException('User not found', status_code=404)
+        return jsonify(contact1.serialize()), 200
 
-#     # DELETE request
-#     if request.method == 'DELETE':
-#         user1 = Person.query.get(person_id)
-#         if user1 is None:
-#             raise APIException('User not found', status_code=404)
-#         db.session.delete(user1)
-#         db.session.commit()
-#         return "ok", 200
+    # DELETE request
+    if request.method == 'DELETE':
+        contact1 = ContactList.query.get(contact_id)
+        if contact1 is None:
+            raise APIException('User not found', status_code=404)
+        db.session.delete(contact1)
+        db.session.commit()
+        return "ok", 200
 
-#     return "Invalid Method", 404
+    return "Invalid Method", 404
 
 
 if __name__ == '__main__':
